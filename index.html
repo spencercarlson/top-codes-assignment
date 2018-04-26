@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>TopCodes Example</title>
+</head>
+
+<body>
+  <canvas id="video-canvas" width="800" height="600" style="background: #ddd;">
+  </canvas>
+  <br/>
+  <!-- <button id="camera-button" onclick="TopCodes.startStopVideoScan('video-canvas')">Start / Stop</button> -->
+  <button id="new-round-button" onclick="newMatchColor()">New Round</button>
+
+  <script src="topcodes.js"></script>
+  <script>
+
+  	var colors = [0,0,0,1];
+
+  	function newMatchColor() {
+		TopCodes.startStopVideoScan('video-canvas');
+		for (i=0; i<3; i++) {
+			colors[i] = Math.floor(Math.random()*256)
+		}
+		colors[3] = Math.random();
+		setTimeout(function() {
+		    TopCodes.startStopVideoScan('video-canvas');
+		}, 30000);
+	};
+
+  // register a callback function with the TopCode library
+  TopCodes.setVideoFrameCallback("video-canvas", function(jsonString) {
+
+    // convert the JSON string to an object
+    var json = JSON.parse(jsonString);
+
+    // get the list of topcodes from the JSON object
+    var topcodes = json.topcodes;
+    console.log(topcodes);
+
+    // obtain a drawing context from the <canvas> 
+    var ctx = document.querySelector("#video-canvas").getContext('2d');
+
+    var red = 0
+    var blue = 0
+    var green = 0
+    var alpha = 1
+
+    // draw a circle over the top of each TopCode
+    // ctx.fillStyle = "rgba(255, 0, 0, 0.3)";   // very translucent red
+    for (i=0; i<topcodes.length; i++) {
+      if (topcodes[i].code==93) {
+      	var red = 255*topcodes[i].angle/(Math.PI*2)
+      } 
+      if (topcodes[i].code==31) {
+      	var alpha = topcodes[i].angle/(Math.PI*2)
+      } 
+
+    }
+
+	ctx.rect(0,0,800,600);
+    ctx.fillStyle = "rgba(255,255,255,1)";
+    ctx.fill();
+    ctx.closePath();
+    ctx.beginPath();
+
+	ctx.rect(0,0,800,600);
+    ctx.fillStyle = "rgba(" + red + "," + blue + "," + green + "," + alpha + ")";
+    ctx.fill();
+
+	ctx.closePath();
+	ctx.beginPath();
+
+    ctx.rect(300,200,200,200);
+    ctx.fillStyle = "rgba(255,255,255,1)";
+    ctx.fill();
+
+	ctx.closePath();
+	ctx.beginPath();
+
+    ctx.rect(300,200,200,200);
+    ctx.fillStyle = "rgba(" + colors[0] + "," + colors[1] + "," + colors[2] + "," + colors[3] + ")";
+    ctx.fill();
+
+  });
+  </script>
+</body>
+</html>
