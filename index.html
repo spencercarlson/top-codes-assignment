@@ -15,6 +15,7 @@
   <script>
 
   	var colors = [0,0,0,1];
+    var offBy = 0.0;
 
   	function newMatchColor() {
 		TopCodes.startStopVideoScan('video-canvas');
@@ -24,6 +25,7 @@
 		colors[3] = Math.random();
 		setTimeout(function() {
 		    TopCodes.startStopVideoScan('video-canvas');
+        alert("You were off by " + offBy.toString().substring(0,4) + " percent!");
 		}, 30000);
 	};
 
@@ -50,12 +52,25 @@
     for (i=0; i<topcodes.length; i++) {
       if (topcodes[i].code==93) {
       	var red = 255*topcodes[i].angle/(Math.PI*2)
+      }
+      if (topcodes[i].code==59) {
+        var blue = 255*topcodes[i].angle/(Math.PI*2)
+      } 
+      if (topcodes[i].code==59) {
+        var green = 255*topcodes[i].angle/(Math.PI*2)
       } 
       if (topcodes[i].code==31) {
       	var alpha = topcodes[i].angle/(Math.PI*2)
       } 
 
     }
+
+    offBy = 100*(Math.abs(red-colors[0])/256 +
+      Math.abs(blue-colors[1])/256 +
+      Math.abs(green-colors[2])/256 +
+      Math.abs(alpha-colors[3]) ) / 4
+
+    console.log(offBy);
 
 	ctx.rect(0,0,800,600);
     ctx.fillStyle = "rgba(255,255,255,1)";
