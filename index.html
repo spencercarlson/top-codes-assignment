@@ -39,8 +39,7 @@
       return Math.random() * (max - min) + min;
     }
 
-    // colors = pickGoodRGBValues(colors);
-    colors[3] = limitOpacityValues(0.5,1.0)
+    colors[3] = limitOpacityValues(0.5,1.0);
 
     setTimeout(function() {
         TopCodes.startStopVideoScan('video-canvas');
