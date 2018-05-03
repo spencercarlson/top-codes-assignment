@@ -39,13 +39,11 @@
         colors[2] = colors[2] > 255 ? 255 : colors[2]; // range of 0-255
       }
 
-<<<<<<< HEAD
       setTimeout(function() {
   		    TopCodes.startStopVideoScan('video-canvas');
           alert("You were off by " + offBy.toString().substring(0,4) + " percent!");
   		}, 30000);
 
-=======
 
       i = setInterval(timer, 1000);
 
@@ -68,23 +66,18 @@
         TopCodes.startStopVideoScan('video-canvas');
         alert("You were off by " + offBy.toString().substring(0, 4) + " percent!");
       }, 30000);
->>>>>>> timer2
     }
 
     function limitOpacityValues(min, max) {
       return Math.random() * (max - min) + min;
     }
 
-<<<<<<< HEAD
     colors[3] = limitOpacityValues(0.5,1.0);
     //
     // setTimeout(function() {
     //     TopCodes.startStopVideoScan('video-canvas');
     // }, 30000);
 
-=======
-    colors[3] = limitOpacityValues(0.5, 1.0);
->>>>>>> timer2
 
 
     // register a callback function with the TopCode library
@@ -104,7 +97,6 @@
       var green = 0
       var alpha = 1
 
-<<<<<<< HEAD
     // draw a circle over the top of each TopCode
     // ctx.fillStyle = "rgba(255, 0, 0, 0.3)";   // very translucent red
     for (i=0; i<topcodes.length; i++) {
@@ -120,23 +112,6 @@
       if (topcodes[i].code==59) {
       	var alpha = topcodes[i].angle/(Math.PI*2)
       }
-=======
-      // draw a circle over the top of each TopCode
-      // ctx.fillStyle = "rgba(255, 0, 0, 0.3)";   // very translucent red
-      for (i = 0; i < topcodes.length; i++) {
-        if (topcodes[i].code == 61) {
-          var red = 255 * topcodes[i].angle / (Math.PI * 2)
-        }
-        if (topcodes[i].code == 47) {
-          var blue = 255 * topcodes[i].angle / (Math.PI * 2)
-        }
-        if (topcodes[i].code == 55) {
-          var green = 255 * topcodes[i].angle / (Math.PI * 2)
-        }
-        if (topcodes[i].code == 59) {
-          var alpha = topcodes[i].angle / (Math.PI * 2)
-        }
->>>>>>> timer2
 
       }
 
@@ -154,15 +129,9 @@
       ctx.closePath();
       ctx.beginPath();
 
-<<<<<<< HEAD
 	ctx.rect(0,0,800,600);
     ctx.fillStyle = "rgba(" + red + "," + green + "," + blue + "," + alpha + ")";
     ctx.fill();
-=======
-      ctx.rect(0, 0, 800, 600);
-      ctx.fillStyle = "rgba(" + red + "," + blue + "," + green + "," + alpha + ")";
-      ctx.fill();
->>>>>>> timer2
 
       ctx.closePath();
       ctx.beginPath();
