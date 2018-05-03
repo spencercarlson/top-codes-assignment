@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <title>Color Matcher</title>
 </head>
@@ -10,66 +11,100 @@
   <br/>
   <!-- <button id="camera-button" onclick="TopCodes.startStopVideoScan('video-canvas')">Start / Stop</button> -->
   <button id="new-round-button" onclick="newMatchColor()">New Round</button>
+  <span id="timerDisplay">Hello</span>
 
   <script src="topcodes.js"></script>
   <script>
-
-  	var colors = [0,0,0,1];
+    var colors = [0, 0, 0, 1];
     var offBy = 0.0;
 
-  	function newMatchColor() {
-		TopCodes.startStopVideoScan('video-canvas');
-  		for (i=0; i<3; i++) {
-  			colors[i] = Math.floor(Math.random()*256)
-  		}
+    let timeLeft = 30;
+    let timerDisplay = document.getElementById('timerDisplay');
+    timerDisplay.innerHTML = `${timeLeft} Seconds Left`;
+
+    function newMatchColor() {
+      TopCodes.startStopVideoScan('video-canvas');
+      for (i = 0; i < 3; i++) {
+        colors[i] = Math.floor(Math.random() * 256)
+      }
       // pick rbg values that are far enough from eachother
       // in order to produce interesting colors
       var PREFFERED_DIFF = 80; // tested w/ online color tool
       var diff = Math.abs(colors[0] - colors[1]) + Math.abs(colors[0] - colors[2]);
       var addPoints = colors[2] + (PREFFERED_DIFF - diff);
       var subPoints = colors[2] - (PREFFERED_DIFF - diff);
-      if(diff < PREFFERED_DIFF) {
-          colors[2] = colors[0] > colors[2] ? subPoints : addPoints; // make the values more different
-          colors[2] = colors[2] < 0 ? 0 : colors[2];
-          colors[2] = colors[2] > 255 ? 255 : colors[2]; // range of 0-255
+      if (diff < PREFFERED_DIFF) {
+        colors[2] = colors[0] > colors[2] ? subPoints : addPoints; // make the values more different
+        colors[2] = colors[2] < 0 ? 0 : colors[2];
+        colors[2] = colors[2] > 255 ? 255 : colors[2]; // range of 0-255
       }
 
+<<<<<<< HEAD
       setTimeout(function() {
   		    TopCodes.startStopVideoScan('video-canvas');
           alert("You were off by " + offBy.toString().substring(0,4) + " percent!");
   		}, 30000);
 
+=======
+
+      i = setInterval(timer, 1000);
+
+      function timer() {
+        if (timeLeft < 1) {
+          // TopCodes.startStopVideoScan('video-canvas');
+          console.log('Reaching Stop');
+          clearInterval(i);
+          // btn.innerHTML = "Start New Game"
+          // timeLeft = 31;
+          // timerDisplay.innerHTML = `${timeLeft} Seconds Left`;;
+          // alert("You were off by " + offBy.toString().substring(0, 4) + " percent!");
+          return;
+        }
+        timeLeft -= 1;
+        timerDisplay.innerHTML = `${timeLeft} Seconds Left`;
+      }
+
+      setTimeout(function () {
+        TopCodes.startStopVideoScan('video-canvas');
+        alert("You were off by " + offBy.toString().substring(0, 4) + " percent!");
+      }, 30000);
+>>>>>>> timer2
     }
 
     function limitOpacityValues(min, max) {
       return Math.random() * (max - min) + min;
     }
 
+<<<<<<< HEAD
     colors[3] = limitOpacityValues(0.5,1.0);
     //
     // setTimeout(function() {
     //     TopCodes.startStopVideoScan('video-canvas');
     // }, 30000);
 
+=======
+    colors[3] = limitOpacityValues(0.5, 1.0);
+>>>>>>> timer2
 
 
-  // register a callback function with the TopCode library
-  TopCodes.setVideoFrameCallback("video-canvas", function(jsonString) {
+    // register a callback function with the TopCode library
+    TopCodes.setVideoFrameCallback("video-canvas", function (jsonString) {
 
-    // convert the JSON string to an object
-    var json = JSON.parse(jsonString);
+      // convert the JSON string to an object
+      var json = JSON.parse(jsonString);
 
-    // get the list of topcodes from the JSON object
-    var topcodes = json.topcodes;
+      // get the list of topcodes from the JSON object
+      var topcodes = json.topcodes;
 
-    // obtain a drawing context from the <canvas>
-    var ctx = document.querySelector("#video-canvas").getContext('2d');
+      // obtain a drawing context from the <canvas>
+      var ctx = document.querySelector("#video-canvas").getContext('2d');
 
-    var red = 0
-    var blue = 0
-    var green = 0
-    var alpha = 1
+      var red = 0
+      var blue = 0
+      var green = 0
+      var alpha = 1
 
+<<<<<<< HEAD
     // draw a circle over the top of each TopCode
     // ctx.fillStyle = "rgba(255, 0, 0, 0.3)";   // very translucent red
     for (i=0; i<topcodes.length; i++) {
@@ -85,42 +120,66 @@
       if (topcodes[i].code==59) {
       	var alpha = topcodes[i].angle/(Math.PI*2)
       }
+=======
+      // draw a circle over the top of each TopCode
+      // ctx.fillStyle = "rgba(255, 0, 0, 0.3)";   // very translucent red
+      for (i = 0; i < topcodes.length; i++) {
+        if (topcodes[i].code == 61) {
+          var red = 255 * topcodes[i].angle / (Math.PI * 2)
+        }
+        if (topcodes[i].code == 47) {
+          var blue = 255 * topcodes[i].angle / (Math.PI * 2)
+        }
+        if (topcodes[i].code == 55) {
+          var green = 255 * topcodes[i].angle / (Math.PI * 2)
+        }
+        if (topcodes[i].code == 59) {
+          var alpha = topcodes[i].angle / (Math.PI * 2)
+        }
+>>>>>>> timer2
 
-    }
+      }
 
-    offBy = 100*(Math.abs(red-colors[0])/256 +
-      Math.abs(blue-colors[1])/256 +
-      Math.abs(green-colors[2])/256 +
-      Math.abs(alpha-colors[3]) ) / 4
+      offBy = 100 * (Math.abs(red - colors[0]) / 256 +
+        Math.abs(blue - colors[1]) / 256 +
+        Math.abs(green - colors[2]) / 256 +
+        Math.abs(alpha - colors[3])) / 4
 
 
 
-	ctx.rect(0,0,800,600);
-    ctx.fillStyle = "rgba(255,255,255,1)";
-    ctx.fill();
+      ctx.rect(0, 0, 800, 600);
+      ctx.fillStyle = "rgba(255,255,255,1)";
+      ctx.fill();
 
-    ctx.closePath();
-    ctx.beginPath();
+      ctx.closePath();
+      ctx.beginPath();
 
+<<<<<<< HEAD
 	ctx.rect(0,0,800,600);
     ctx.fillStyle = "rgba(" + red + "," + green + "," + blue + "," + alpha + ")";
     ctx.fill();
+=======
+      ctx.rect(0, 0, 800, 600);
+      ctx.fillStyle = "rgba(" + red + "," + blue + "," + green + "," + alpha + ")";
+      ctx.fill();
+>>>>>>> timer2
 
-	ctx.closePath();
-	ctx.beginPath();
+      ctx.closePath();
+      ctx.beginPath();
 
-    ctx.rect(300,200,200,200);
-    ctx.fillStyle = "rgba(255,255,255,1)";
-    ctx.fill();
+      ctx.rect(300, 200, 200, 200);
+      ctx.fillStyle = "rgba(255,255,255,1)";
+      ctx.fill();
 
-	ctx.closePath();
-	ctx.beginPath();
+      ctx.closePath();
+      ctx.beginPath();
 
-    ctx.rect(300,200,200,200);
-    ctx.fillStyle = "rgba(" + colors[0] + "," + colors[1] + "," + colors[2] + "," + colors[3] + ")";
-    ctx.fill();
+      ctx.rect(300, 200, 200, 200);
+      ctx.fillStyle = "rgba(" + colors[0] + "," + colors[1] + "," + colors[2] + "," + colors[3] + ")";
+      ctx.fill();
 
-  });
+    });
   </script>
 </body>
+
 </html>
