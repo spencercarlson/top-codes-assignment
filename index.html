@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>TopCodes Example</title>
+  <title>Color Matcher</title>
 </head>
 
 <body>
@@ -37,7 +37,6 @@
 
     // get the list of topcodes from the JSON object
     var topcodes = json.topcodes;
-    console.log(topcodes);
 
     // obtain a drawing context from the <canvas> 
     var ctx = document.querySelector("#video-canvas").getContext('2d');
@@ -70,11 +69,12 @@
       Math.abs(green-colors[2])/256 +
       Math.abs(alpha-colors[3]) ) / 4
 
-    console.log(offBy);
+
 
 	ctx.rect(0,0,800,600);
     ctx.fillStyle = "rgba(255,255,255,1)";
     ctx.fill();
+    
     ctx.closePath();
     ctx.beginPath();
 
