@@ -33,6 +33,10 @@
           colors[2] = colors[2] < 0 ? 0 : colors[2];
           colors[2] = colors[2] > 255 ? 255 : colors[2]; // range of 0-255
       }
+      setTimeout(function() {
+          TopCodes.startStopVideoScan('video-canvas');
+          alert("You were off by " + offBy.toString().substring(0,4) + " percent!");
+      }, 30000);
     }
 
     function limitOpacityValues(min, max) {
@@ -41,14 +45,6 @@
 
     colors[3] = limitOpacityValues(0.5,1.0);
 
-    setTimeout(function() {
-        TopCodes.startStopVideoScan('video-canvas');
-    }, 30000);
-
-		setTimeout(function() {
-		    TopCodes.startStopVideoScan('video-canvas');
-        alert("You were off by " + offBy.toString().substring(0,4) + " percent!");
-		}, 30000);
 
   // register a callback function with the TopCode library
   TopCodes.setVideoFrameCallback("video-canvas", function(jsonString) {
