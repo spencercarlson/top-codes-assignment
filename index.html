@@ -62,10 +62,7 @@
         timerDisplay.innerHTML = `${timeLeft} Seconds Left`;
       }
 
-      setTimeout(function () {
-        TopCodes.startStopVideoScan('video-canvas');
-        alert("You were off by " + offBy.toString().substring(0, 4) + " percent!");
-      }, 30000);
+
     }
 
     function limitOpacityValues(min, max) {
