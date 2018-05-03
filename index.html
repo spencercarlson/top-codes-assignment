@@ -19,15 +19,37 @@
 
   	function newMatchColor() {
 		TopCodes.startStopVideoScan('video-canvas');
-		for (i=0; i<3; i++) {
-			colors[i] = Math.floor(Math.random()*256)
-		}
-		colors[3] = Math.random();
+  		for (i=0; i<3; i++) {
+  			colors[i] = Math.floor(Math.random()*256)
+  		}
+      // pick rbg values that are far enough from eachother
+      // in order to produce interesting colors
+      var PREFFERED_DIFF = 80; // tested w/ online color tool
+      var diff = Math.abs(colors[0] - colors[1]) + Math.abs(colors[0] - colors[2]);
+      var addPoints = colors[2] + (PREFFERED_DIFF - diff);
+      var subPoints = colors[2] - (PREFFERED_DIFF - diff);
+      if(diff < PREFFERED_DIFF) {
+          colors[2] = colors[0] > colors[2] ? subPoints : addPoints; // make the values more different
+          colors[2] = colors[2] < 0 ? 0 : colors[2];
+          colors[2] = colors[2] > 255 ? 255 : colors[2]; // range of 0-255
+      }
+    }
+
+    function limitOpacityValues(min, max) {
+      return Math.random() * (max - min) + min;
+    }
+
+    // colors = pickGoodRGBValues(colors);
+    colors[3] = limitOpacityValues(0.5,1.0)
+
+    setTimeout(function() {
+        TopCodes.startStopVideoScan('video-canvas');
+    }, 30000);
+
 		setTimeout(function() {
 		    TopCodes.startStopVideoScan('video-canvas');
         alert("You were off by " + offBy.toString().substring(0,4) + " percent!");
 		}, 30000);
-	};
 
   // register a callback function with the TopCode library
   TopCodes.setVideoFrameCallback("video-canvas", function(jsonString) {
@@ -38,7 +60,7 @@
     // get the list of topcodes from the JSON object
     var topcodes = json.topcodes;
 
-    // obtain a drawing context from the <canvas> 
+    // obtain a drawing context from the <canvas>
     var ctx = document.querySelector("#video-canvas").getContext('2d');
 
     var red = 0
@@ -54,13 +76,13 @@
       }
       if (topcodes[i].code==59) {
         var blue = 255*topcodes[i].angle/(Math.PI*2)
-      } 
+      }
       if (topcodes[i].code==59) {
         var green = 255*topcodes[i].angle/(Math.PI*2)
-      } 
+      }
       if (topcodes[i].code==31) {
       	var alpha = topcodes[i].angle/(Math.PI*2)
-      } 
+      }
 
     }
 
@@ -74,7 +96,7 @@
 	ctx.rect(0,0,800,600);
     ctx.fillStyle = "rgba(255,255,255,1)";
     ctx.fill();
-    
+
     ctx.closePath();
     ctx.beginPath();
 
